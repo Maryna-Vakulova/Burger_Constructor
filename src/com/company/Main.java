@@ -1,55 +1,58 @@
 package com.company;
 
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Здравствуйте! Вас приветствует конструктор бургера");
-        System.out.println("Стандартная стоимость бургера - 50 грн, но Вы можете выбрать дополнительный ингридиент: ");
-        listIngridients();
 
-        int ing = inputMethod();
         int result = 50;
-        result = priceBurger(ing, result);
+        System.out.println("Здравствуйте! Вас приветствует конструктор бургера.");
+        System.out.println("Стоимость бургера - 50 грн, но Вы можете выбрать дополнительный ингридиент: ");
 
-        String str = getMethod();
-        getCheck(str, result);
+        listIngredients();
+        int ing = inputMethod();
+        result = priceBurger(ing, result);
+        getCheck(result);
+    }
+
+    public static void listIngredients() {
+        for (Burger burger : Burger.values()) {
+            System.out.println("№ " + burger.number + " " + burger + " - " + burger.price + " грн");
+        }
+        System.out.println("Для выбора введите № 1, 2 или 3 ");
     }
 
     public static int inputMethod() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
-    }
-
-    public static String getMethod() {
-        System.out.println("Хотите добавить еще один ингридиент (да/нет)?");
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine();
-    }
-
-    public static void listIngridients() {
-        for (Burger burger : Burger.values()) {
-            System.out.println(burger + " - " + burger.price);
+        try {
+            Scanner scanner = new Scanner(System.in);
+            return scanner.nextInt();
+        } catch (InputMismatchException e) {
+            return 0;
         }
-        System.out.println("Выберите 1, 2 или 3 соответственно порядка");
     }
 
-    public static void getCheck(String str, int result) {
+    public static void getCheck(int result) {
+        System.out.println("Хотите добавить еще ингридиент (да/нет)?");
+        Scanner scanner = new Scanner(System.in);
+        String str1 = scanner.nextLine();
+
         String s1 = "да";
         String s2 = "нет";
-        if (str.equalsIgnoreCase(s1)) {
-            listIngridients();
+
+        if (str1.equalsIgnoreCase(s1)) {
+            listIngredients();
             int ing1 = inputMethod();
-            int result1 = priceBurger(ing1, result);
-            System.out.println("Стоимость бургера составит: " + result1 + " грн");
-        } else if (str.equals(s2)) {
-            System.out.println("Стоимость бургера составит: " + result + " грн");
+            result = priceBurger(ing1, result);
+            getCheck(result);
+        } else if (str1.equalsIgnoreCase(s2)) {
+            System.out.println("Стоимость Вашего бургера: " + result + " грн");
         } else {
-            System.out.println("Что-то пошло не так");
+            System.out.println("К сожалению, Вы ввели некорректный ответ");
+            System.out.println("Стоимость Вашего бургера с дополнительным ингридиентом: " + result + " грн");
         }
     }
-
 
     public static int priceBurger(int ing, int result) {
         switch (ing) {
@@ -66,6 +69,5 @@ public class Main {
                 System.out.println("Что-то пошло не так");
         }
         return result;
-
     }
 }
