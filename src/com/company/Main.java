@@ -6,14 +6,14 @@ import java.util.InputMismatchException;
 public class Main {
 
     public static void main(String[] args) {
-
         int result = 50;
+
         System.out.println("Здравствуйте! Вас приветствует конструктор бургера.");
         System.out.println("Стоимость бургера - 50 грн, но Вы можете выбрать дополнительный ингридиент: ");
 
         listIngredients();
-        int ing = inputMethod();
-        result = priceBurger(ing, result);
+        int ingredient = inputMethod();
+        result = priceBurger(ingredient, result);
         getCheck(result);
     }
 
@@ -36,17 +36,17 @@ public class Main {
     public static void getCheck(int result) {
         System.out.println("Хотите добавить еще ингридиент (да/нет)?");
         Scanner scanner = new Scanner(System.in);
-        String str1 = scanner.nextLine();
+        String str = scanner.nextLine();
 
         String s1 = "да";
         String s2 = "нет";
 
-        if (str1.equalsIgnoreCase(s1)) {
+        if (str.equalsIgnoreCase(s1)) {
             listIngredients();
-            int ing1 = inputMethod();
-            result = priceBurger(ing1, result);
+            int ingredient = inputMethod();
+            result = priceBurger(ingredient, result);
             getCheck(result);
-        } else if (str1.equalsIgnoreCase(s2)) {
+        } else if (str.equalsIgnoreCase(s2)) {
             System.out.println("Стоимость Вашего бургера: " + result + " грн");
         } else {
             System.out.println("К сожалению, Вы ввели некорректный ответ");
@@ -54,8 +54,8 @@ public class Main {
         }
     }
 
-    public static int priceBurger(int ing, int result) {
-        switch (ing) {
+    public static int priceBurger(int ingredient, int result) {
+        switch (ingredient) {
             case 1:
                 result += 10;
                 break;
